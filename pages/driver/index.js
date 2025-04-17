@@ -1,5 +1,3 @@
-// Full rebuild in progress based on your printed log sheet, dispatcher autofill, and manual override for additional stops.
-
 import { useEffect, useState } from "react";
 
 export default function DriverApp() {
@@ -12,21 +10,29 @@ export default function DriverApp() {
   const [expenses, setExpenses] = useState({ hotel: "", meals: "", other: "" });
   const [stateline, setStateline] = useState([{ state: "", odo: "" }]);
   const [returns, setReturns] = useState([{ company: "", amount: "", check: "" }]);
+  const [stops, setStops] = useState([]);
 
-  const initialStops = [
-    { customer: "ABC Granite", location: "Springfield", slabs: "3", bol: "1234" },
-    { customer: "XYZ Marble", location: "Riverdale", slabs: "2", bol: "5678" },
-  ]; // ← Replace with dispatcher-injected data
-
-  const [stops, setStops] = useState(initialStops.map(s => ({
-    ...s,
-    depart: "",
-    arrive: "",
-    odo: "",
-    miles: "",
-    return: "",
-    cod: ""
-  })));
+  // Load dispatcher data from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("dispatcher_data");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setDriverInfo({ name: parsed.driver, truck: parsed.truck, date: parsed.date });
+      const loadedStops = parsed.stops.map(s => ({
+        customer: s.customer || "",
+        location: s.town || "",
+        slabs: s.slabs || "",
+        bol: s.so || "",
+        depart: "",
+        arrive: "",
+        odo: "",
+        miles: "",
+        return: "",
+        cod: ""
+      }));
+      setStops(loadedStops);
+    }
+  }, []);
 
   const handleStartShift = () => {
     const now = new Date();
@@ -41,7 +47,21 @@ export default function DriverApp() {
   };
 
   const addStop = () => {
-    setStops([...stops, { customer: "", location: "", slabs: "", bol: "", depart: "", arrive: "", odo: "", miles: "", return: "", cod: "" }]);
+    setStops([
+      ...stops,
+      {
+        customer: "",
+        location: "",
+        slabs: "",
+        bol: "",
+        depart: "",
+        arrive: "",
+        odo: "",
+        miles: "",
+        return: "",
+        cod: ""
+      }
+    ]);
   };
 
   return (
