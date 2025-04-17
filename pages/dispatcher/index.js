@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function DispatcherForm() {
   const [form, setForm] = useState({
     driver: "",
     truck: "",
-    date: "",
+    date: new Date().toISOString().slice(0, 10),
     stops: Array(5).fill({ customer: "", town: "", slabs: "", cod: "", so: "" })
   });
+
+  useEffect(() => {
+    const saved = localStorage.getItem("dispatcher_data");
+    if (saved) {
+      setForm(JSON.parse(saved));
+    }
+  }, []);
 
   const handleStopChange = (i, field, value) => {
     const newStops = [...form.stops];
@@ -15,7 +22,8 @@ export default function DispatcherForm() {
   };
 
   const handleSubmit = () => {
-    alert("Stops assigned! (Data would be saved in real app)");
+    localStorage.setItem("dispatcher_data", JSON.stringify(form));
+    alert("Stops saved to local storage!");
   };
 
   return (
