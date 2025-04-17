@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 
 export default function DispatcherForm() {
   const [form, setForm] = useState({
@@ -22,63 +19,62 @@ export default function DispatcherForm() {
   };
 
   return (
-    <div className="p-4 max-w-3xl mx-auto space-y-4">
-      <Card>
-        <CardContent className="space-y-4">
-          <h2 className="text-xl font-bold">Dispatcher Daily Form</h2>
+    <div style={{ padding: "1rem", maxWidth: "900px", margin: "0 auto" }}>
+      <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Dispatcher Daily Form</h2>
 
-          <Input
-            placeholder="Driver Name"
-            value={form.driver}
-            onChange={(e) => setForm({ ...form, driver: e.target.value })}
-          />
-          <Input
-            placeholder="Truck Number"
-            value={form.truck}
-            onChange={(e) => setForm({ ...form, truck: e.target.value })}
-          />
-          <Input
-            type="date"
-            value={form.date}
-            onChange={(e) => setForm({ ...form, date: e.target.value })}
-          />
+      <input
+        placeholder="Driver Name"
+        value={form.driver}
+        onChange={(e) => setForm({ ...form, driver: e.target.value })}
+        style={{ display: "block", marginBottom: "0.5rem", width: "100%" }}
+      />
+      <input
+        placeholder="Truck Number"
+        value={form.truck}
+        onChange={(e) => setForm({ ...form, truck: e.target.value })}
+        style={{ display: "block", marginBottom: "0.5rem", width: "100%" }}
+      />
+      <input
+        type="date"
+        value={form.date}
+        onChange={(e) => setForm({ ...form, date: e.target.value })}
+        style={{ display: "block", marginBottom: "1rem", width: "100%" }}
+      />
 
-          <h3 className="font-semibold mt-4">Stops</h3>
-          {form.stops.map((stop, i) => (
-            <div key={i} className="grid grid-cols-5 gap-2">
-              <Input
-                placeholder="Customer"
-                value={stop.customer}
-                onChange={(e) => handleStopChange(i, "customer", e.target.value)}
-              />
-              <Input
-                placeholder="Town"
-                value={stop.town}
-                onChange={(e) => handleStopChange(i, "town", e.target.value)}
-              />
-              <Input
-                placeholder="Slabs"
-                value={stop.slabs}
-                onChange={(e) => handleStopChange(i, "slabs", e.target.value)}
-              />
-              <Input
-                placeholder="COD Type"
-                value={stop.cod}
-                onChange={(e) => handleStopChange(i, "cod", e.target.value)}
-              />
-              <Input
-                placeholder="SO#"
-                value={stop.so}
-                onChange={(e) => handleStopChange(i, "so", e.target.value)}
-              />
-            </div>
-          ))}
+      <h3 style={{ fontWeight: "600" }}>Stops</h3>
+      {form.stops.map((stop, i) => (
+        <div key={i} style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0.5rem", marginBottom: "0.5rem" }}>
+          <input
+            placeholder="Customer"
+            value={stop.customer}
+            onChange={(e) => handleStopChange(i, "customer", e.target.value)}
+          />
+          <input
+            placeholder="Town"
+            value={stop.town}
+            onChange={(e) => handleStopChange(i, "town", e.target.value)}
+          />
+          <input
+            placeholder="Slabs"
+            value={stop.slabs}
+            onChange={(e) => handleStopChange(i, "slabs", e.target.value)}
+          />
+          <input
+            placeholder="COD Type"
+            value={stop.cod}
+            onChange={(e) => handleStopChange(i, "cod", e.target.value)}
+          />
+          <input
+            placeholder="SO#"
+            value={stop.so}
+            onChange={(e) => handleStopChange(i, "so", e.target.value)}
+          />
+        </div>
+      ))}
 
-          <Button className="mt-4 w-full" onClick={handleSubmit}>
-            Submit Route
-          </Button>
-        </CardContent>
-      </Card>
+      <button style={{ marginTop: "1rem", padding: "0.5rem 1rem", width: "100%" }} onClick={handleSubmit}>
+        Submit Route
+      </button>
     </div>
   );
 }
